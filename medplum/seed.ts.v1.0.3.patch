@@ -1,0 +1,26 @@
+--- seed.ts	2022-12-17 14:46:45
++++ seed_with_client_app.ts	2022-12-17 14:47:50
+@@ -63,6 +63,23 @@
+     admin: true,
+   });
+ 
++  const clientApp = await systemRepo.updateResource({
++    resourceType: "ClientApplication",
++    id: "f54370de-eaf3-4d81-a17e-24860f667912",
++    meta: {
++      project: project.id,
++    },
++    name: "Default Application",
++    secret: "75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de"
++  })
++
++  await systemRepo.createResource({
++    resourceType: "ProjectMembership",
++    project: createReference(project),
++    user: createReference(clientApp),
++    profile: createReference(clientApp),
++  })
++
+   await createValueSetElements();
+   await createSearchParameters();
+   await createStructureDefinitions();
