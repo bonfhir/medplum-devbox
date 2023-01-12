@@ -1,5 +1,4 @@
 FROM node:16-bullseye
-LABEL org.opencontainers.image.authors="dev@ensagehealth.com"
 
 ARG MEDPLUM_BRANCH=main
 
