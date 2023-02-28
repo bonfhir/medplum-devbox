@@ -10,7 +10,7 @@ services:
       - '3000:3000'
       - '8103:8103'
     volumes:
-      - ./medplum/medplum.config.json:/workspace/packages/server/medplum.config.json
+      - ./medplum/medplum.config.json:/usr/src/medplum/packages/server/medplum.config.json
 
   postgres:
     image: postgres:12-bullseye

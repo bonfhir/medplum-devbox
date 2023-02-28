@@ -1,20 +1,18 @@
-FROM node:16-bullseye
-
-ARG MEDPLUM_BRANCH=main
+FROM medplum/medplum-server:2.0.4
 
 # Install OS dependencies
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends supervisor \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone source code and build
-RUN cd / && git clone --depth 1 --branch $MEDPLUM_BRANCH https://github.com/medplum/medplum.git workspace
-WORKDIR /workspace
-ADD ./medplum/seed.ts.$MEDPLUM_BRANCH.patch /workspace/seed.ts.patch
-RUN patch /workspace/packages/server/src/seed.ts /workspace/seed.ts.patch
-RUN npm ci
-RUN npm run build
+# Patch seed with client app
+COPY ./medplum/seed.js packages/server/dist/seed.js
+
+# Copy app
+COPY ./app/dist packages/app/dist
+
+RUN npm install -g http-server
 
 # Entrypoint script
 ADD ./medplum/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -2,10 +2,6 @@ name: Build Docker image
 
 on:
   workflow_dispatch:
-    inputs:
-      medplum_branch:
-        description: Medplum branch or tag
-        default: 'main'
 
 jobs:
   docker:
@@ -32,7 +28,5 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          build-args: |
-            MEDPLUM_BRANCH=${{ github.event.inputs.medplum_branch }}
           push: true
-          tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:${{ github.event.inputs.medplum_branch }}
+          tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:v2.0.4

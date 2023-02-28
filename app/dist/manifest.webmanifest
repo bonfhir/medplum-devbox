@@ -1,0 +1,42 @@
+{
+  "name": "Medplum",
+  "short_name": "Medplum",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/img/medplum-logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/img/medplum-logo-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/img/medplum-logo-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "main.css": "/css/main.43597caad235316775c7.css",
+  "main.js": "/js/main.7970dc5c265fd4d0292e.js",
+  "runtime.js": "/js/runtime.f1cd140e62ec2911a318.js",
+  "workbox-b891d7eb.js.map": "/workbox-b891d7eb.js.map",
+  "img/medplum-logo-512-512.png": "/img/medplum-logo-512-512.png",
+  "img/medplum-logo-maskable.png": "/img/medplum-logo-maskable.png",
+  "favicon.ico": "/favicon.ico",
+  "workbox-b891d7eb.js": "/workbox-b891d7eb.js",
+  "service-worker.js.map": "/service-worker.js.map",
+  "service-worker.js": "/service-worker.js",
+  "index.html": "/index.html",
+  "img/medplum-logo.svg": "/img/medplum-logo.svg",
+  "robots.txt": "/robots.txt",
+  "main.css.map": "/css/main.43597caad235316775c7.css.map",
+  "main.js.map": "/js/main.7970dc5c265fd4d0292e.js.map",
+  "runtime.js.map": "/js/runtime.f1cd140e62ec2911a318.js.map"
+}
