@@ -24,7 +24,7 @@
     }
   ],
   "main.css": "/css/main.df852ff379e5dddccf3e.css",
-  "main.js": "/js/main.d18a02694df5a90247c7.js",
+  "main.js": "/js/main.00975fdee74e2c2da094.js",
   "runtime.js": "/js/runtime.e53d2bf68ab6dc7b5401.js",
   "workbox-b891d7eb.js.map": "/workbox-b891d7eb.js.map",
   "img/medplum-logo-512-512.png": "/img/medplum-logo-512-512.png",
@@ -37,6 +37,6 @@
   "img/medplum-logo.svg": "/img/medplum-logo.svg",
   "robots.txt": "/robots.txt",
   "main.css.map": "/css/main.df852ff379e5dddccf3e.css.map",
-  "main.js.map": "/js/main.d18a02694df5a90247c7.js.map",
+  "main.js.map": "/js/main.00975fdee74e2c2da094.js.map",
   "runtime.js.map": "/js/runtime.e53d2bf68ab6dc7b5401.js.map"
 }
