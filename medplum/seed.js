@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seedDatabase = void 0;
 const core_1 = require("@medplum/core");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const utils_1 = require("./auth/utils");
 const repo_1 = require("./fhir/repo");
 const logger_1 = require("./logger");
 const searchparameters_1 = require("./seeds/searchparameters");
@@ -21,7 +18,7 @@ async function seedDatabase() {
     const projectName = 'Super Admin';
     const email = 'admin@example.com';
     const password = 'medplum_admin';
-    const passwordHash = await bcryptjs_1.default.hash(password, 10);
+    const passwordHash = await (0, utils_1.bcryptHashPassword)(password);
     const user = await repo_1.systemRepo.createResource({
         resourceType: 'User',
         firstName,
@@ -69,7 +66,7 @@ async function seedDatabase() {
         },
         name: 'Default Application',
         secret: '75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de',
-        redirectUri: "http://localhost:1234/",
+        redirectUri: 'http://localhost:1234/',
     });
     await repo_1.systemRepo.createResource({
         resourceType: 'ProjectMembership',
