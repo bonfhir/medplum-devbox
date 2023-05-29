@@ -1,4 +1,4 @@
-FROM medplum/medplum-server:2.0.18
+FROM medplum/medplum-server:2.0.20
 
 # Install OS dependencies
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
