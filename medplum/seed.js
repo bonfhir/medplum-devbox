@@ -74,9 +74,9 @@ async function seedDatabase() {
         user: (0, core_1.createReference)(clientApp),
         profile: (0, core_1.createReference)(clientApp),
     });
+    await (0, structuredefinitions_1.createStructureDefinitions)();
     await (0, valuesets_1.createValueSets)();
     await (0, searchparameters_1.createSearchParameters)();
-    await (0, structuredefinitions_1.createStructureDefinitions)();
 }
 exports.seedDatabase = seedDatabase;
 /**
