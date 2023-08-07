@@ -60,7 +60,7 @@ Example of content for the volume-mounted files can be found here:
 
 ## Ports
 
-- `http://localhost:3000`: Medplum app
+- `http://localhost:8100`: Medplum app
 - `http://localhost:8103`: Medplum server
 
 ## Credentials
@@ -74,5 +74,5 @@ Example of content for the volume-mounted files can be found here:
 
 - **Client ID**: f54370de-eaf3-4d81-a17e-24860f667912
 - **Client Secret**: 75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de
-- **Redirect URI**: http://localhost:1234/
+- **Redirect URI**: http://localhost:3000/
 
