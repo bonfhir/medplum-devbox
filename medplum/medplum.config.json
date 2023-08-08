@@ -23,6 +23,8 @@
   "maxUploadSize": "100mb",
   "botLambdaRoleArn": "",
   "botLambdaLayerName": "medplum-bot-layer",
+  "allowedOrigins": "*",
+  "introspectionEnabled": true,
   "database": {
     "host": "localhost",
     "port": 5432,
