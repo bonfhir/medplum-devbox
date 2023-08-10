@@ -6,9 +6,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure Postgres
-RUN echo "listen_addresses = '*'" >> /etc/postgresql/15/main/postgresql.conf
+# RUN echo "listen_addresses = '*'" >> /etc/postgresql/15/main/postgresql.conf
 RUN echo "local all all trust" > /etc/postgresql/15/main/pg_hba.conf
-RUN echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/15/main/pg_hba.conf
+# RUN echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/15/main/pg_hba.conf
 RUN /etc/init.d/postgresql start && \
     psql -U postgres --command "CREATE USER medplum WITH PASSWORD 'medplum';" && \
     psql -U postgres --command "CREATE DATABASE medplum WITH OWNER = medplum;" && \
