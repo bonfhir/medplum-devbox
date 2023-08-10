@@ -66,7 +66,7 @@ async function seedDatabase() {
         },
         name: 'Default Application',
         secret: '75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de',
-        redirectUri: 'http://localhost:3000/',
+        redirectUri: process.env.INITIAL_CLIENT_APP_REDIRECT_URI || 'http://localhost:3000/',
     });
     await repo_1.systemRepo.createResource({
         resourceType: 'ProjectMembership',
@@ -90,3 +90,4 @@ async function isSeeded() {
     });
     return !!bundle.entry && bundle.entry.length > 0;
 }
+//# sourceMappingURL=seed.js.map

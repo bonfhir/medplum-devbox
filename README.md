@@ -49,3 +49,6 @@ To setup your own `medplum.config.json`, simply mount your config at `/usr/src/m
 - **Client Secret**: 75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de
 - **Redirect URI**: http://localhost:3000/
 
+> To customize the Redirect UI, you can use the `INITIAL_CLIENT_APP_REDIRECT_URI` environment variable during
+> the initial container creation (during database init).
+
