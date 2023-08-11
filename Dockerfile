@@ -9,10 +9,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN echo "listen_addresses = '*'" >> /etc/postgresql/15/main/postgresql.conf
 RUN echo "local all all trust" > /etc/postgresql/15/main/pg_hba.conf
 RUN echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/15/main/pg_hba.conf
-RUN /etc/init.d/postgresql start && \
-    psql -U postgres --command "CREATE USER medplum WITH PASSWORD 'medplum';" && \
-    psql -U postgres --command "CREATE DATABASE medplum WITH OWNER = medplum;" && \
-    psql -U postgres --command "\c medplum;\nCREATE EXTENSION \"uuid-ossp\";"
+COPY ./medplum/create-database.sh /usr/src/
+RUN chmod +x /usr/src/create-database.sh && \
+    /usr/src/create-database.sh && \
+    rm /usr/src/create-database.sh
 
 # Patch seed with client app
 COPY ./medplum/seed.js packages/server/dist/seed.js
