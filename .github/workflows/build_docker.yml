@@ -29,6 +29,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          # platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/arm64
           push: true
           tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:v2.0.30
