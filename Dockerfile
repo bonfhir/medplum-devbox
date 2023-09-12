@@ -1,4 +1,6 @@
-FROM medplum/medplum-server:2.0.31
+ARG MEDPLUM_VERSION
+
+FROM medplum/medplum-server:$MEDPLUM_VERSION
 
 # Install OS dependencies
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -20,9 +22,14 @@ COPY ./medplum/seed.js packages/server/dist/seed.js
 # Copy medplum config
 COPY ./medplum/medplum.config.json /usr/src/medplum/packages/server/medplum.config.json
 
-# Copy app
-COPY ./app/dist packages/app/dist
-
+# Install app
+RUN mkdir -p /usr/src/medplum/packages/app
+RUN npm install --prefix /usr/src/medplum/packages/app @medplum/app@$MEDPLUM_VERSION
+RUN find /usr/src/medplum/packages/app -type f -exec sed -i 's/__MEDPLUM_BASE_URL__/http:\/\/localhost:8103/g' {} \;
+RUN find /usr/src/medplum/packages/app -type f -exec sed -i 's/__MEDPLUM_CLIENT_ID__//g' {} \;
+RUN find /usr/src/medplum/packages/app -type f -exec sed -i 's/__GOOGLE_CLIENT_ID__//g' {} \;
+RUN find /usr/src/medplum/packages/app -type f -exec sed -i 's/__RECAPTCHA_SITE_KEY__//g' {} \;
+RUN find /usr/src/medplum/packages/app -type f -exec sed -i 's/__MEDPLUM_REGISTER_ENABLED__/true/g' {} \;
 RUN npm install -g http-server
 
 # Entrypoint script

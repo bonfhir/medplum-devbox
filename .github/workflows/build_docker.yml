@@ -1,9 +1,11 @@
 name: Build Docker image
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      medplum_version:
+        description: 'Medplum version (without the "v" - e.g. 2.0.32)'
+        required: true
 
 jobs:
   docker:
@@ -31,4 +33,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:v2.0.31
+          build-args: MEDPLUM_VERSION=${{ github.event.inputs.medplum_version }}
+          tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:v${{ github.event.inputs.medplum_version }}
