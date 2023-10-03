@@ -1,41 +1,44 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedDatabase = void 0;
+exports.seedDatabase = exports.r4ProjectId = void 0;
 const core_1 = require("@medplum/core");
+const uuid_1 = require("uuid");
 const utils_1 = require("./auth/utils");
 const repo_1 = require("./fhir/repo");
 const logger_1 = require("./logger");
 const searchparameters_1 = require("./seeds/searchparameters");
 const structuredefinitions_1 = require("./seeds/structuredefinitions");
 const valuesets_1 = require("./seeds/valuesets");
+exports.r4ProjectId = (0, uuid_1.v5)('R4', uuid_1.NIL);
 async function seedDatabase() {
     if (await isSeeded()) {
-        logger_1.logger.info('Already seeded');
+        logger_1.globalLogger.info('Already seeded');
         return;
     }
-    const firstName = 'Medplum';
-    const lastName = 'Admin';
-    const projectName = 'Super Admin';
-    const email = 'admin@example.com';
-    const password = 'medplum_admin';
-    const passwordHash = await (0, utils_1.bcryptHashPassword)(password);
-    const user = await repo_1.systemRepo.createResource({
+    const [firstName, lastName, email] = ['Medplum', 'Admin', 'admin@example.com'];
+    const passwordHash = await (0, utils_1.bcryptHashPassword)('medplum_admin');
+    const superAdmin = await repo_1.systemRepo.createResource({
         resourceType: 'User',
         firstName,
         lastName,
         email,
         passwordHash,
     });
-    const project = await repo_1.systemRepo.createResource({
+    const superAdminProject = await repo_1.systemRepo.createResource({
         resourceType: 'Project',
-        name: projectName,
-        owner: (0, core_1.createReference)(user),
+        name: 'Super Admin',
+        owner: (0, core_1.createReference)(superAdmin),
         superAdmin: true,
+    });
+    await repo_1.systemRepo.updateResource({
+        resourceType: 'Project',
+        id: exports.r4ProjectId,
+        name: 'FHIR R4',
     });
     const practitioner = await repo_1.systemRepo.createResource({
         resourceType: 'Practitioner',
         meta: {
-            project: project.id,
+            project: superAdminProject.id,
         },
         name: [
             {
@@ -53,8 +56,8 @@ async function seedDatabase() {
     });
     await repo_1.systemRepo.createResource({
         resourceType: 'ProjectMembership',
-        project: (0, core_1.createReference)(project),
-        user: (0, core_1.createReference)(user),
+        project: (0, core_1.createReference)(superAdminProject),
+        user: (0, core_1.createReference)(superAdmin),
         profile: (0, core_1.createReference)(practitioner),
         admin: true,
     });
@@ -62,7 +65,7 @@ async function seedDatabase() {
         resourceType: 'ClientApplication',
         id: 'f54370de-eaf3-4d81-a17e-24860f667912',
         meta: {
-            project: project.id,
+            project: superAdminProject.id,
         },
         name: 'Default Application',
         secret: '75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de',
@@ -70,24 +73,20 @@ async function seedDatabase() {
     });
     await repo_1.systemRepo.createResource({
         resourceType: 'ProjectMembership',
-        project: (0, core_1.createReference)(project),
+        project: (0, core_1.createReference)(superAdminProject),
         user: (0, core_1.createReference)(clientApp),
         profile: (0, core_1.createReference)(clientApp),
     });
-    await (0, structuredefinitions_1.createStructureDefinitions)();
-    await (0, valuesets_1.createValueSets)();
-    await (0, searchparameters_1.createSearchParameters)();
+    await (0, structuredefinitions_1.rebuildR4StructureDefinitions)();
+    await (0, valuesets_1.rebuildR4ValueSets)();
+    await (0, searchparameters_1.rebuildR4SearchParameters)();
 }
 exports.seedDatabase = seedDatabase;
 /**
  * Returns true if the database is already seeded.
  * @returns True if already seeded.
  */
-async function isSeeded() {
-    const bundle = await repo_1.systemRepo.search({
-        resourceType: 'User',
-        count: 1,
-    });
-    return !!bundle.entry && bundle.entry.length > 0;
+function isSeeded() {
+    return repo_1.systemRepo.searchOne({ resourceType: 'User' });
 }
 //# sourceMappingURL=seed.js.map
