@@ -35,3 +35,4 @@ jobs:
           push: true
           build-args: MEDPLUM_VERSION=${{ github.event.inputs.medplum_version }}
           tags: ghcr.io/bonfhir/medplum-devbox:latest,ghcr.io/bonfhir/medplum-devbox:v${{ github.event.inputs.medplum_version }}
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.source=https://github.com/bonfhir/medplum-devbox,annotation-index.org.opencontainers.image.description=A Medplum docker image that you can use to run your local development against it.

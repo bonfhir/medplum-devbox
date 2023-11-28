@@ -1,6 +1,6 @@
 # Medplum Devbox
 
-A [Medplum](https://www.medplum.com/) docker image that you can use to run your local development againt it.
+A [Medplum](https://www.medplum.com/) docker image that you can use to run your local development against it.
 
 Differences with the current (as of 2023-02-27) [official medplum docker image](https://hub.docker.com/r/medplum/medplum-server):
  - Runs **BOTH** the server **AND** the front-end app concurrently, along with postgresql and redis, so that once it's started you can [connect to the app](http://localhost:3000) right away
