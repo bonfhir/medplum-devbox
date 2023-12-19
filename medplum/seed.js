@@ -29,6 +29,7 @@ async function seedDatabase() {
         name: 'Super Admin',
         owner: (0, core_1.createReference)(superAdmin),
         superAdmin: true,
+        strictMode: true,
     });
     await repo_1.systemRepo.updateResource({
         resourceType: 'Project',
@@ -61,11 +62,46 @@ async function seedDatabase() {
         profile: (0, core_1.createReference)(practitioner),
         admin: true,
     });
+    // Add Default project
+    const defaultProject = await repo_1.systemRepo.updateResource({
+        resourceType: 'Project',
+        id: 'cd8a377a-ab31-4dc2-8c71-ba18a4888a18',
+        name: 'Default',
+        description: 'Default project',
+        strictMode: true,
+        superAdmin: false,
+    });
+    const defaultProjectPractitioner = await repo_1.systemRepo.createResource({
+        resourceType: 'Practitioner',
+        meta: {
+            project: defaultProject.id,
+        },
+        name: [
+            {
+                given: [firstName],
+                family: lastName,
+            },
+        ],
+        telecom: [
+            {
+                system: 'email',
+                use: 'work',
+                value: email,
+            },
+        ],
+    });
+    await repo_1.systemRepo.createResource({
+        resourceType: 'ProjectMembership',
+        project: (0, core_1.createReference)(defaultProject),
+        user: (0, core_1.createReference)(superAdmin),
+        profile: (0, core_1.createReference)(defaultProjectPractitioner),
+        admin: true,
+    });
     const clientApp = await repo_1.systemRepo.updateResource({
         resourceType: 'ClientApplication',
         id: 'f54370de-eaf3-4d81-a17e-24860f667912',
         meta: {
-            project: superAdminProject.id,
+            project: defaultProject.id,
         },
         name: 'Default Application',
         secret: '75d8e7d06bf9283926c51d5f461295ccf0b69128e983b6ecdd5a9c07506895de',
@@ -73,10 +109,11 @@ async function seedDatabase() {
     });
     await repo_1.systemRepo.createResource({
         resourceType: 'ProjectMembership',
-        project: (0, core_1.createReference)(superAdminProject),
+        project: (0, core_1.createReference)(defaultProject),
         user: (0, core_1.createReference)(clientApp),
         profile: (0, core_1.createReference)(clientApp),
     });
+    // End Default project
     await (0, structuredefinitions_1.rebuildR4StructureDefinitions)();
     await (0, valuesets_1.rebuildR4ValueSets)();
     await (0, searchparameters_1.rebuildR4SearchParameters)();
