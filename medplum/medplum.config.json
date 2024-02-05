@@ -36,6 +36,10 @@
     "host": "localhost",
     "port": 6379,
     "password": ""
-  }
+  },
+  "bullmq": {
+    "removeOnFail": { "count": 1 },
+    "removeOnComplete": { "count": 1 }
+  },
+  "shutdownTimeoutMilliseconds": 30000
 }
-
