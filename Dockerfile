@@ -11,6 +11,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN echo "listen_addresses = '*'" >> /etc/postgresql/15/main/postgresql.conf
 RUN echo "local all all trust" > /etc/postgresql/15/main/pg_hba.conf
 RUN echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/15/main/pg_hba.conf
+RUN echo "host all all ::1/128 trust" >> /etc/postgresql/15/main/pg_hba.conf
 COPY ./medplum/create-database.sh /usr/src/
 RUN chmod +x /usr/src/create-database.sh && \
     /usr/src/create-database.sh && \
